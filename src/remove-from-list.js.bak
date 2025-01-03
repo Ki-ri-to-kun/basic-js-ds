@@ -56,6 +56,7 @@ function removeKFromList(l, k) {
 		} else {
 			const previousNode = getNodeByIndex(l, index - 1);
 			const nodeToDelete = previousNode.next;
+	
 			previousNode.next = nodeToDelete.next;
 			nodeToDelete.next = null;
 		}
