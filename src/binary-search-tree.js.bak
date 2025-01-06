@@ -69,53 +69,16 @@ class BinarySearchTree {
   }
 
   remove(data){
-    if(this.rootNode === null) return;
-	let currentNode = this.rootNode;
-	while(currentNode.left !== null || currentNode.right !== null){
-		 if(data < currentNode.data){
-			 if(data === currentNode.left.data){
-				 if(currentNode.left.left !== null){
-					const rightNode = currentNode.left.right;
-					currentNode.left = currentNode.left.left; 
-					currentNode.left.right = rightNode;
-					return;
-				 } else if(currentNode.left.right !== null){
-					currentNode.left = currentNode.left.right; 
-					return;
-				 } else {
-					currentNode.left = null;
-					return;
-				 }
-			 }
-			 currentNode = currentNode.left;
-		 } else if(data > currentNode.data){
-			 if(data === currentNode.right.data){
-				 if(data === currentNode.right.data){
-				 if(currentNode.right.left !== null){
-					const rightNode = currentNode.right.right;
-					currentNode.right = currentNode.right.left; 
-					currentNode.right.right = rightNode;
-					return;
-				 } else if(currentNode.right.right !== null){
-					currentNode.right = currentNode.right.right; 
-					return;
-				 } else {
-					currentNode.right = null;
-					return;
-				 }
-				}
-			 }
-			 currentNode = currentNode.right;
-		 } else {
-			 currentNode = null;
-			 return;	
-	 }
-  }
+    if(this.rootNode === null) {
+		return;
+	}else {
+		this.rootNode = this.deleteNode(this.rootNode, data);
+	};
   }
 
-  min() {
+  min(root = this.rootNode) {
    if(this.rootNode === null) return null;
-   let currentNode = this.rootNode;
+   let currentNode = root;
    while(currentNode.left !== null){
       currentNode = currentNode.left;
    }
@@ -129,6 +92,30 @@ class BinarySearchTree {
       currentNode = currentNode.right;
    }
    return currentNode.data;
+  }
+  
+  deleteNode(root, data){
+	  if(root === null) return root;
+	  if(root.data === data){
+		    if(root.left === null && root.right === null){
+		 return null;
+	  } else if(root.left === null){
+		  return root.right;
+	  } else if(root.right === null){
+		  return root.left;
+	  } else {
+		  root.data = this.min(root.right);
+		  root.right = this.deleteNode(root.right, root.data);
+	  }
+		  
+		  
+	  } else if(data < root.data){
+		  root.left = this.deleteNode(root.left, data);
+	  } else {
+		  root.right = this.deleteNode(root.right, data);
+	  }
+	  
+	  return root;
   }
 }
 
